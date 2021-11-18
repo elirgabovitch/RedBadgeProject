@@ -23,9 +23,7 @@ let Express = require("express");
         res.status(200).json(newRecipe);
       } catch (err) {
         res.status(500).json({ error: err });
-      }
-      RecipeModel.create(RecipeEntry)
-        
+      }  
     });
 
     /* 
@@ -52,7 +50,7 @@ let Express = require("express");
       try {
         const userRecipes = await RecipeModel.findAll({
           where: {
-            owner: id
+            userId: id
           }
         });
         res.status(200).json(userRecipes);
@@ -66,15 +64,15 @@ let Express = require("express");
       Update a Recipe
     =======================
     */
-    router.put("/update/:entryId", validateJWT, async (req, res) => {
+    router.put("/update/:id", validateJWT, async (req, res) => {
       const { name, ingredients, notes } = req.body.recipe;
-      const recipeId = req.params.entryId;
-      const userId = req.user.id;
+      const recipeId = req.params.id;
+      const {id} = req.user;
       
       const query = {
         where: {
-          recipeId: recipeId,
-          userId: userId
+          id: recipeId,
+          userId: id
         }
      };
    
@@ -98,19 +96,19 @@ let Express = require("express");
   =======================
  */
    router.delete("/delete/:id", validateJWT, async (req, res) => {
-     const ownerId = req.user.id;
-     const recipeId = req.params.id;
-   
-     try {
-       const query = {
-         where: {
-           id: recipeId,
-           owner: ownerId
-         }
-       };
-   
+         const recipeId = req.params.id;
+          const {id} = req.user;
+          
+          const query = {
+            where: {
+              id: recipeId,
+              userId: id
+            }
+         };
+
+   try {
        await RecipeModel.destroy(query);
-       res.status(200).json({ message: "Recipe Entry Removed" });
+       res.status(200).json({ message: "Recipe Removed" });
      } catch (err) {
        res.status(500).json({ error: err });
      }

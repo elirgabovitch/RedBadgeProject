@@ -6,7 +6,7 @@ const { CommentModel } = require('../models');
 
 /* 
 =======================
-    Comment Create
+    Create Comment
 =======================
 */
   router.post('/create/:recipeId', validateJWT, async (req, res) => {
@@ -99,10 +99,10 @@ const { CommentModel } = require('../models');
 // module.exports = router;
 
 /* 
-117   =======================
-118     Delete a Comment
-119   =======================
-120   */
+   =======================
+     Delete a Comment
+   =======================
+   */
    router.delete("/delete/:id", validateJWT, async (req, res) => {
          const userId = req.user.id;
          const commentId = req.params.id;
