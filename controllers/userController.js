@@ -3,6 +3,7 @@ const { UserModel } = require("../models");
 const { UniqueConstraintError } = require("sequelize/lib/errors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const validateJWT = require("../middleware/validate-jwt");
 
 router.post("/register", async (req, res) => {
  let { email, password, isAdmin } = req.body.user;
@@ -73,5 +74,34 @@ try {
       })
     }
  });
+
+
+
+
+ /* 
+  =======================
+     Delete a User
+  =======================
+*/
+//    router.delete("/delete/:id", validateJWT, async (req, res) => {
+//          const { email, password, isAdmin } = req.body.user;
+//          const userId = req.params.id;
+//        
+//          try {
+//            const query = {
+//              where: {
+//                 email: email,
+//                 password: password,
+//                 userId: userId,
+//                 isAdmin: true
+//              }
+//            };
+//        
+//            await UserModel.destroy(query);
+//            res.status(200).json({ message: "User successfully deleted" });
+//          } catch (err) {
+//            res.status(500).json({ error: err });
+//          }
+//        });
 
 module.exports = router;

@@ -67,42 +67,11 @@ const { CommentModel } = require('../models');
          }
        })
 
-//     /* 
-//   =======================
-//      Delete a Comment
-//   =======================
-//  */
-//    router.delete("/delete/:id", validateJWT, async (req, res) => {
-//          const { comment } = req.body;
-//        
-//        try {
-//             await CommentModel.destroy({comment}, {where: {id: req.params.id, userId: req.user.id}});
-//            res.status(200).json({ message: "Comment Deleted" });
-//          } catch (err) {
-//            res.status(500).json({ error: err });
-//          }
-//        })
-//         
-//         module.exports = router;
-
-// router.delete("delete/:id", validateJWT, async (req, res) => {
-//     const { comment } = req.body;
-
-//     try {
-//         await CommentModel.destroy({ comment }, {where: {id: req.params.id, userId: req.user.id}});
-//         res.status(200).json({ message: 'Comment Deleted'});
-//     } catch (err) {
-//         res.status(500).json({ error: err});
-//     }
-// })
-
-// module.exports = router;
-
 /* 
-   =======================
+  =======================
      Delete a Comment
-   =======================
-   */
+  =======================
+*/
    router.delete("/delete/:id", validateJWT, async (req, res) => {
          const userId = req.user.id;
          const commentId = req.params.id;
@@ -120,4 +89,6 @@ const { CommentModel } = require('../models');
          } catch (err) {
            res.status(500).json({ error: err });
          }
-       })
+       });
+
+    module.exports = router;
