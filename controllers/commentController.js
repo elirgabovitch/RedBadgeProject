@@ -33,7 +33,7 @@ const { CommentModel } = require('../models');
      Get Comments by User
     =======================
     */
-    router.get("/mine", validateJWT, async (req, res) => {
+    router.get("/:userId", validateJWT, async (req, res) => {
           let { id } = req.user;
           try {
             const userComments = await CommentModel.findAll({
@@ -42,6 +42,26 @@ const { CommentModel } = require('../models');
               }
             });
             res.status(200).json(userComments);
+          } catch (err) {
+            res.status(500).json({ error: err });
+          }
+        });
+
+    /* 
+
+    =======================
+     Get Comments by RecipeID
+    =======================
+    */
+    router.get('/:recipeId', validateJWT, async (req, res) => {
+          let { recipeId } = req.params;
+          try {
+            const recipeComments = await CommentModel.findAll({
+              where: {
+                recipeId: recipeId
+              }
+            });
+            res.status(200).json(recipeComments);
           } catch (err) {
             res.status(500).json({ error: err });
           }
