@@ -1,21 +1,22 @@
-const UserModel = require('./user');
-const RecipeModel = require('./recipe');
-const CommentModel = require('./comment');
+const db = require('../db');
 
-UserModel.hasMany(RecipeModel);
-UserModel.hasMany(CommentModel);
+const UsersModel = require('./users');
+const RecipesModel = require('./recipes');
+const CommentsModel = require('./comments');
 
-RecipeModel.belongsTo(UserModel);
-RecipeModel.hasMany(CommentModel);
+// Associations below here
 
-CommentModel.belongsTo(RecipeModel, {
-    as: "comments",
-    foreignKey: "recipeId"
-});
+UsersModel.hasMany(RecipesModel);
+UsersModel.hasMany(CommentsModel);
+
+RecipesModel.belongsTo(UsersModel);
+RecipesModel.hasMany(CommentsModel);
+
+CommentsModel.belongsTo(RecipesModel);
 
 module.exports = {
-    UserModel,
-    RecipeModel,
-    CommentModel
+    UsersModel,
+    RecipesModel,
+    CommentsModel
 };
 

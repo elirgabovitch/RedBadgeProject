@@ -2,7 +2,7 @@ let Express = require("express");
      let router = Express.Router();
      let validateJWT = require("../middleware/validate-jwt");
      // Import the Recipe Model
-     const { RecipeModel } = require('../models');
+     const { RecipesModel } = require('../models');
     
     /* 
     =======================
@@ -19,7 +19,7 @@ let Express = require("express");
         userId: id
       }
       try {
-        const newRecipe = await RecipeModel.create(recipeEntry);
+        const newRecipe = await RecipesModel.create(recipeEntry);
         res.status(200).json(newRecipe);
       } catch (err) {
         res.status(500).json({ error: err });
@@ -33,7 +33,7 @@ let Express = require("express");
     */
     router.get("/", async (req, res) => {
           try {
-            const entries = await RecipeModel.findAll();
+            const entries = await RecipesModel.findAll();
             res.status(200).json(entries);
           } catch (err) {
             res.status(500).json({ error: err });
@@ -48,7 +48,7 @@ let Express = require("express");
     router.get("/mine", validateJWT, async (req, res) => {
       let { id } = req.user;
       try {
-        const userRecipes = await RecipeModel.findAll({
+        const userRecipes = await RecipesModel.findAll({
           where: {
             userId: id
           }
@@ -83,7 +83,7 @@ let Express = require("express");
      };
    
      try {
-       const update = await RecipeModel.update(updatedRecipe, query);
+       const update = await RecipesModel.update(updatedRecipe, query);
        res.status(200).json(update);
      } catch (err) {
        res.status(500).json({ error: err });
@@ -107,7 +107,7 @@ let Express = require("express");
          };
 
    try {
-       await RecipeModel.destroy(query);
+       await RecipesModel.destroy(query);
        res.status(200).json({ message: "Recipe Removed" });
      } catch (err) {
        res.status(500).json({ error: err });

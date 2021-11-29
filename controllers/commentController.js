@@ -2,7 +2,7 @@ let Express = require("express");
 let router = Express.Router();
 let validateJWT = require("../middleware/validate-jwt");
 // Import the Comment Model
-const { CommentModel } = require('../models');
+const { CommentsModel } = require('../models');
 
 /* 
 =======================
@@ -19,7 +19,7 @@ const { CommentModel } = require('../models');
             userId: userId
           }
           try {
-            const newComment = await CommentModel.create(commentEntry);
+            const newComment = await CommentsModel.create(commentEntry);
             res.status(200).json(newComment);
           } catch (err) {
             res.status(500).json({ error: err });
@@ -36,7 +36,7 @@ const { CommentModel } = require('../models');
     router.get("/:userId", validateJWT, async (req, res) => {
           let { id } = req.user;
           try {
-            const userComments = await CommentModel.findAll({
+            const userComments = await CommentsModel.findAll({
               where: {
                 userId: id
               }
@@ -56,7 +56,7 @@ const { CommentModel } = require('../models');
     router.get('/:recipeId', validateJWT, async (req, res) => {
           let { recipeId } = req.params;
           try {
-            const recipeComments = await CommentModel.findAll({
+            const recipeComments = await CommentsModel.findAll({
               where: {
                 recipeId: recipeId
               }
@@ -80,7 +80,7 @@ const { CommentModel } = require('../models');
          };
        
          try {
-           const update = await CommentModel.update({comment}, {where: {id: req.params.id, userId: req.user.id}});
+           const update = await CommentsModel.update({comment}, {where: {id: req.params.id, userId: req.user.id}});
            res.status(200).json(update);
          } catch (err) {
            res.status(500).json({ error: err });
@@ -104,7 +104,7 @@ const { CommentModel } = require('../models');
              }
            };
        
-           await CommentModel.destroy(query);
+           await CommentsModel.destroy(query);
            res.status(200).json({ message: "Comment Deleted" });
          } catch (err) {
            res.status(500).json({ error: err });
