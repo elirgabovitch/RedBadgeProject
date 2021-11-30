@@ -33,7 +33,7 @@ const { CommentsModel } = require('../models');
      Get Comments by User
     =======================
     */
-    router.get("/:userId", validateJWT, async (req, res) => {
+    router.get("/mine", validateJWT, async (req, res) => {
           let { id } = req.user;
           try {
             const userComments = await CommentsModel.findAll({
