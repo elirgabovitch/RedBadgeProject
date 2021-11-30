@@ -73,15 +73,13 @@ const { CommentsModel } = require('../models');
     =======================
     */
     router.put("/update/:id", validateJWT, async (req, res) => {
-          const { comment } = req.body;
-       
-         const updatedComment = {
-           comment: comment
-         };
+          const { comment } = req.body.comment;
        
          try {
            const update = await CommentsModel.update({comment}, {where: {id: req.params.id, userId: req.user.id}});
-           res.status(200).json(update);
+           res.status(200).json({
+        message: "success", update
+    });
          } catch (err) {
            res.status(500).json({ error: err });
          }
